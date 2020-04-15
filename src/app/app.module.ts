@@ -4,17 +4,26 @@ import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { EventsAppComponent } from './events-app.component';
 import { EventsListComponent } from './events/events-list.component';
+import { EventThumbnailComponent } from './events/event-thumbnail.component';
+import { NavBarComponent } from './nav/nav-bar.component';
+import { EventService } from './events/shared/event.service';
+import { BrowserAnimationsModule} from '@angular/platform-browser/animations'
+import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    BrowserAnimationsModule,
+    ToastrModule.forRoot()
   ],
   declarations: [
     EventsAppComponent,
-    EventsListComponent
+    EventsListComponent,
+    EventThumbnailComponent,
+    NavBarComponent
   ],
-  providers: [],
+  providers: [EventService],
   bootstrap: [EventsAppComponent]
 })
 export class AppModule { }
