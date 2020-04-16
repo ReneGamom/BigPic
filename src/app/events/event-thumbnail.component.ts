@@ -1,8 +1,9 @@
 import { Component, Input, Output,EventEmitter } from '@angular/core'
+//import * as $ from 'jquery'
 
 @Component({
     selector:'event-thumbnail',
-    template:`<div class="well hoverwall thumbnail">
+    template:`<div [routerLink]="['/events', event.id]" class="well hoverwall thumbnail">
     <h2>{{event?.name}}</h2>
         <div>Date:{{event?.date}}</div>
         <div [ngStyle]="getStartTimeStyle()" [ngClass]="getStartTimeClassStr()" [ngSwitch]="event?.time">Time:{{event?.time}}

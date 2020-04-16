@@ -4,14 +4,13 @@ import { NotificationService } from '../notification.service';
 import { Toast } from 'ngx-toastr';
 
 @Component({
-    selector: 'events-list',
     template:`<div>
     <h1>Upcoming Angular Events</h1>
     <hr>
         <div class="row">
             <div *ngFor="let event of events" class="col-md-5">
-            <event-thumbnail (click)="showToasterSuccess(event.name)"
-            [event]="event"></event-thumbnail>
+            <event-thumbnail  [event]="event">
+            </event-thumbnail>
             </div>
         </div>
        
