@@ -13,6 +13,7 @@ import { EventDetailsComponent } from './events/event-details/event-details.comp
 import { CreateEventComponent } from './events/create-event.component';
 import { Error404Component } from './errors/404.component';
 import { EventRouteActivator } from './events/event-details/event-route-activator.service';
+import { EventListResolver } from './events/events-list-resolver.service';
 //import { appRoutes} from './routes';
 
 @NgModule({
@@ -32,7 +33,25 @@ import { EventRouteActivator } from './events/event-details/event-route-activato
     CreateEventComponent,
     Error404Component
   ],
-  providers: [EventService,EventRouteActivator],
+  providers: [
+    EventService,
+    EventRouteActivator,
+    EventListResolver,
+    {
+      provide:'canDeactivateCreateEvent',
+      useValue:checkDirtyState
+    }
+  ],
   bootstrap: [EventsAppComponent]
 })
-export class AppModule { }
+
+export class AppModule {
+
+ }
+
+ export function checkDirtyState(component:CreateEventComponent){
+   if(component.isDirty)
+   return window.confirm('You have not saved this event, do you really want to Camcel?');
+
+   return true;
+ }

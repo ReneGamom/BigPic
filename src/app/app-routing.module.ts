@@ -5,10 +5,11 @@ import { EventDetailsComponent } from './events/event-details/event-details.comp
 import { CreateEventComponent } from './events/create-event.component';
 import {Error404Component} from './errors/404.component';
 import { EventRouteActivator } from './events/event-details/event-route-activator.service';
+import { EventListResolver } from './events/events-list-resolver.service';
 
 const routes: Routes = [
-  { path: 'events/new',component:CreateEventComponent},// route pour une nouvelle page
-  { path: 'events', component:EventsListComponent},
+  { path: 'events/new',component:CreateEventComponent, canDeactivate:['canDeactivateCreateEvent']},// route pour une nouvelle page
+  { path: 'events', component:EventsListComponent,resolve:{events:EventListResolver}},
   { path: 'events/:id', component:EventDetailsComponent,canActivate:[EventRouteActivator]},// chemin avec id de tyne numeric ou string
   { path: '404', component:Error404Component},
   { path: '', redirectTo:'/events',pathMatch:'full'}//chemin par defaut au cas ou il est vide
@@ -18,4 +19,7 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {
+
+
+ }

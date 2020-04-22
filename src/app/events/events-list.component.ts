@@ -2,6 +2,7 @@ import {Component} from '@angular/core'
 import { EventService } from './shared/event.service';
 import { NotificationService } from '../notification.service';
 import { Toast } from 'ngx-toastr';
+import { ActivatedRoute } from '@angular/router'
 
 @Component({
     template:`<div>
@@ -18,13 +19,17 @@ import { Toast } from 'ngx-toastr';
 `  
 })
 export class EventsListComponent {
-    events:any[]
-    constructor(private eventService:EventService,private notifyService : NotificationService){
+    events:any
+    constructor(private eventService:EventService,
+        private notifyService : NotificationService,
+        private route:ActivatedRoute){
 
     }
     ngOnInit(){
-        this.events=this.eventService.getEvents()
-    }
+/*         this.eventService.getEvents().subscribe(events=>{this.events=events})
+ */    
+        this.events=this.route.snapshot.data['events']
+}
    
     title = 'toaster-not';
   

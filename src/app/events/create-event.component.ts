@@ -15,6 +15,7 @@ template:`
 `
 })
 export  class CreateEventComponent{
+    isDirty:boolean=true;
     constructor(private route:Router){
 
     }
