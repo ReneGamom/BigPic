@@ -3,6 +3,7 @@ import { EventService } from './shared/event.service';
 import { NotificationService } from '../notification.service';
 import { Toast } from 'ngx-toastr';
 import { ActivatedRoute } from '@angular/router'
+import { IEvent } from './shared/index';
 
 @Component({
     template:`<div>
@@ -19,7 +20,7 @@ import { ActivatedRoute } from '@angular/router'
 `  
 })
 export class EventsListComponent {
-    events:any
+    events:IEvent[]
     constructor(private eventService:EventService,
         private notifyService : NotificationService,
         private route:ActivatedRoute){

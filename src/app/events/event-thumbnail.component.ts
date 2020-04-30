@@ -1,4 +1,5 @@
 import { Component, Input, Output,EventEmitter } from '@angular/core'
+import { IEvent } from './shared/index'
 //import * as $ from 'jquery'
 
 @Component({
@@ -34,7 +35,7 @@ styles: [`
 })
 
 export class EventThumbnailComponent{
-@Input() event:any
+@Input() event:IEvent
 someProperty:any="Some Value"
 @Output() eventClick=new EventEmitter()
 

@@ -1,28 +1,35 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-//import { RouterModule} from '@angular/router';
 import { AppRoutingModule } from './app-routing.module';
+
+import {
+  EventsListComponent,
+  EventThumbnailComponent,
+  EventService,
+  EventDetailsComponent,
+  CreateEventComponent,
+  EventRouteActivator,
+  EventListResolver,
+  CreateSessionComponent,
+  SessionListComponent,
+} from './events/index';
+import { CollapsibleWellComponent } from './common/collapsible-well.component';
 import { EventsAppComponent } from './events-app.component';
-import { EventsListComponent } from './events/events-list.component';
-import { EventThumbnailComponent } from './events/event-thumbnail.component';
 import { NavBarComponent } from './nav/nav-bar.component';
-import { EventService } from './events/shared/event.service';
-import { BrowserAnimationsModule} from '@angular/platform-browser/animations'
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
-import { EventDetailsComponent } from './events/event-details/event-details.component';
-import { CreateEventComponent } from './events/create-event.component';
 import { Error404Component } from './errors/404.component';
-import { EventRouteActivator } from './events/event-details/event-route-activator.service';
-import { EventListResolver } from './events/events-list-resolver.service';
-//import { appRoutes} from './routes';
+import { AuthService } from './user/auth.service';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   imports: [
     BrowserModule,
     AppRoutingModule,
-    //RouterModule.forRoot(appRoutes),
+    FormsModule,
+    ReactiveFormsModule,
     BrowserAnimationsModule,
-    ToastrModule.forRoot()
+    ToastrModule.forRoot(),
   ],
   declarations: [
     EventsAppComponent,
@@ -31,27 +38,30 @@ import { EventListResolver } from './events/events-list-resolver.service';
     EventDetailsComponent,
     NavBarComponent,
     CreateEventComponent,
-    Error404Component
+    Error404Component,
+    CreateSessionComponent,
+    SessionListComponent,
+    CollapsibleWellComponent,
   ],
   providers: [
     EventService,
     EventRouteActivator,
     EventListResolver,
+    AuthService,
     {
-      provide:'canDeactivateCreateEvent',
-      useValue:checkDirtyState
-    }
+      provide: 'canDeactivateCreateEvent',
+      useValue: checkDirtyState,
+    },
   ],
-  bootstrap: [EventsAppComponent]
+  bootstrap: [EventsAppComponent],
 })
+export class AppModule {}
 
-export class AppModule {
+export function checkDirtyState(component: CreateEventComponent) {
+  if (component.isDirty)
+    return window.confirm(
+      'You have not saved this event, do you really want to Camcel?'
+    );
 
- }
-
- export function checkDirtyState(component:CreateEventComponent){
-   if(component.isDirty)
-   return window.confirm('You have not saved this event, do you really want to Camcel?');
-
-   return true;
- }
+  return true;
+}
