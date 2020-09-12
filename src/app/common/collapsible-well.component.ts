@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 
 @Component({
+  // tslint:disable-next-line: component-selector
   selector: 'collapsible-well',
   template: `
     <div (click)="toggleContent()" class="well pointable">
@@ -13,7 +14,7 @@ import { Component } from '@angular/core';
   styles: [],
 })
 export class CollapsibleWellComponent {
-  visible: boolean = true;
+  visible = true;
 
   // @Input() title: string;
 

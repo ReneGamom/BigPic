@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { EventService } from './shared';
+import { NotificationService } from '../notification.service';
 
 @Component({
   templateUrl: './create-event.component.html',
@@ -31,32 +32,45 @@ import { EventService } from './shared';
 })
 export class CreateEventComponent {
   newEvent;
-  event:any
-  isDirty: boolean = true;
-  constructor(private route: Router, private eventService: EventService) {}
-  ngOnInit(){
-    this.event={
-        name:'ng Spectacular Events',
-        date:'8/8/2028',
-        time:'10am',
-        price:799.99,
-        location:{
-            address:'456 Happy st',
-            city:'Felicity',
-            country:'Angularistan',
-        },
-        onlineUrl:'http://ngSpectacular.com',
-        imageUrl:'http://ngSpectacular.com/logo.png'
-    }
+  event: any;
+  isDirty = true;
+  constructor(
+    private route: Router,
+    private eventService: EventService,
+    private notifyService: NotificationService
+  ) {}
+  // tslint:disable-next-line: use-lifecycle-interface
+  ngOnInit() {
+    this.event = {
+      name: '',
+      date: '',
+      time: '',
+      price: 0,
+      location: {
+        address: '',
+        city: '',
+        country: '',
+      },
+      onlineUrl: '',
+      imageUrl: '',
+    };
   }
 
   cancel() {
     this.route.navigate(['/events']);
   }
   saveEvent(formValues) {
-    // console.log(formValues);
-    this.isDirty = false;
-    this.eventService.saveEvent(formValues);
+    console.log(formValues);
+
+    this.eventService.saveEvent(formValues).subscribe(() => {
+      this.isDirty = false;
+      this.route.navigate(['/events']);
+    });
+
+    this.showToasterSuccess('save Events successfully.');
     this.route.navigate(['/events']);
+  }
+  showToasterSuccess(eventName) {
+    this.notifyService.showSuccess('Exbil.Apps', eventName);
   }
 }

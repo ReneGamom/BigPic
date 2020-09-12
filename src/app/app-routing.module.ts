@@ -3,11 +3,11 @@ import {
   EventsListComponent,
   EventDetailsComponent,
   CreateEventComponent,
-  EventRouteActivator,
   EventListResolver,
   CreateSessionComponent,
+  EventResolver,
 } from './events/index';
-import { Routes, RouterModule } from '@angular/router';
+import { Routes, RouterModule, PreloadAllModules } from '@angular/router';
 import { Error404Component } from './errors/404.component';
 
 const routes: Routes = [
@@ -24,11 +24,11 @@ const routes: Routes = [
   {
     path: 'events/:id',
     component: EventDetailsComponent,
-    canActivate: [EventRouteActivator],
+    resolve: { event: EventResolver },
   }, // chemin avec id de tyne numeric ou string
   { path: 'events/session/new', component: CreateSessionComponent },
   { path: '404', component: Error404Component },
-  { path: '', redirectTo: '/events', pathMatch: 'full' }, //chemin par defaut au cas ou il est vide
+  { path: '', redirectTo: '/events', pathMatch: 'full' }, // chemin par defaut au cas ou il est vide
 
   {
     path: 'user',
@@ -38,7 +38,9 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [
+    RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules }),
+  ],
   exports: [RouterModule],
 })
 export class AppRoutingModule {}

@@ -1,9 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { EventService } from '../shared/event.service';
-import { ActivatedRoute } from '@angular/router';
-import { IEvent, ISession } from '../shared';
+import { ActivatedRoute, Params } from '@angular/router';
+import { IEvent, ISession } from '../shared/index';
 
 @Component({
+  // tslint:disable-next-line: component-selector
   selector: 'event-details',
   templateUrl: './event-details.component.html',
   styles: [
@@ -14,15 +15,26 @@ a {cursor:pointer;}
 `,
   ],
 })
-export class EventDetailsComponent {
+export class EventDetailsComponent implements OnInit {
   event: IEvent;
   addMode: boolean;
+  filterBy = 'all';
+  sortBy = 'votes';
   constructor(
     private eventService: EventService,
     private route: ActivatedRoute
   ) {}
+
   ngOnInit() {
-    this.event = this.eventService.getEvent(+this.route.snapshot.params['id']);
+    this.route.data.forEach((data) => {
+      // this.eventService.getEvent(+params['id']).subscribe((event: IEvent) => {
+      // tslint:disable-next-line: no-string-literal
+      this.event = data['event'];
+      this.addMode = false;
+      // tslint:disable-next-line: comment-format
+      //});
+    });
+    // this.event = this.eventService.getEvent(+this.route.snapshot.params['id']);
   }
 
   addSession() {
@@ -35,7 +47,8 @@ export class EventDetailsComponent {
     );
     session.id = nextId + 1;
     this.event.sessions.push(session);
-    this.eventService.updateEvent(this.event);
+    this.eventService.saveEvent(this.event).subscribe();
     this.addMode = false;
   }
+  cancelAddSession() {}
 }

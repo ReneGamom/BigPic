@@ -1,8 +1,10 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { ISession, restrictedWords } from '../shared/index';
+import { ISession, restrictedWords, EventService } from '../shared/index';
+import { NotificationService } from 'src/app/notification.service';
 
 @Component({
+  // tslint:disable-next-line: component-selector
   selector: 'create-session',
   templateUrl: './create-session.component.html',
   styles: [
@@ -33,6 +35,10 @@ import { ISession, restrictedWords } from '../shared/index';
   ],
 })
 export class CreateSessionComponent implements OnInit {
+  constructor(
+    private eventService: EventService,
+    private notifyService: NotificationService
+  ) {}
   @Output() saveNewSession = new EventEmitter();
   @Output() cancelAddSession = new EventEmitter();
   newSessionForm: FormGroup;
@@ -63,7 +69,7 @@ export class CreateSessionComponent implements OnInit {
   }
 
   saveSession(formValues) {
-    let session: ISession = {
+    const session: ISession = {
       id: undefined,
       name: formValues.name,
       presenter: formValues.presenter,
@@ -72,10 +78,14 @@ export class CreateSessionComponent implements OnInit {
       abstract: formValues.abstract,
       voters: [],
     };
-    //console.log(session);
+    // console.log(session);
     this.saveNewSession.emit(session);
+    this.showToasterSuccess('Save Session Successfuly.');
   }
   cancel() {
     this.cancelAddSession.emit();
+  }
+  showToasterSuccess(eventName) {
+    this.notifyService.showSuccess('Exbil.Apps', eventName);
   }
 }

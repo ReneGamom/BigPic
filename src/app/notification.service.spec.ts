@@ -1,16 +1,24 @@
-import { TestBed } from '@angular/core/testing';
+// import { TestBed, async, ComponentFixture } from '@angular/core/testing';
+// import { DebugElement } from '@angular/core';
+// import { NotificationService } from './notification.service';
 
-import { NotificationService } from './notification.service';
+// describe('NotificationService', () => {
+//   let service: NotificationService, mockToastr;
 
-describe('NotificationService', () => {
-  let service: NotificationService;
+//   beforeEach(() => {
+//     mockToastr = jasmine.createSpyObj('mockToastr', [
+//       'error',
+//       'success',
+//       'info',
+//       'warning',
+//     ]);
 
-  beforeEach(() => {
-    TestBed.configureTestingModule({});
-    service = TestBed.inject(NotificationService);
-  });
+//     service = new NotificationService(mockToastr);
+//     TestBed.configureTestingModule({});
+//     service = TestBed.inject(NotificationService);
+//   });
 
-  it('should be created', () => {
-    expect(service).toBeTruthy();
-  });
-});
+//   it('should be created', () => {
+//     expect(service).toBeTruthy();
+//   });
+// });
